@@ -12,7 +12,7 @@ public class JpaConfig {
     @Bean
     public DataSource getDataSource() {
         DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.driverClassName("oracle.jdbc.driver.OracleDriver");
+        dataSourceBuilder.driverClassName("oracle.jdbc.OracleDriver");
         dataSourceBuilder.url("jdbc:oracle:thin:@localhost:1521:OraDoc");
         dataSourceBuilder.username("appUser");
         dataSourceBuilder.password("MyPass");
