@@ -1,11 +1,11 @@
-INSERT INTO department
-VALUES (1, 'Marketing', 'Chisinau');
+INSERT INTO department(name, location)
+VALUES ('Marketing', 'Chisinau');
 
-INSERT INTO department
-VALUES (2, 'Human Resources', 'Berlin');
+INSERT INTO department(name, location)
+VALUES ('Human Resources', 'Berlin');
 
-INSERT INTO department
-VALUES (3, 'Executive', 'Amsterdam');
+INSERT INTO department(name, location)
+VALUES ('Executive', 'Amsterdam');
 
-INSERT INTO department
-VALUES (4, 'IT', 'Chisinau');
+INSERT INTO department(name, location)
+VALUES ('IT', 'Chisinau');

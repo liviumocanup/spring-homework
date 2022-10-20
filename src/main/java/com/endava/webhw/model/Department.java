@@ -17,8 +17,7 @@ import javax.validation.constraints.NotNull;
 @ToString
 public class Department {
     @Id
-    @SequenceGenerator(name = "dep_seq", sequenceName = "department_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dep_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

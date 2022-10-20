@@ -19,8 +19,7 @@ import java.util.Objects;
 @ToString
 public class Employee {
     @Id
-    @SequenceGenerator(name = "emp_seq", sequenceName = "employee_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "emp_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
