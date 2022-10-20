@@ -1,17 +1,23 @@
 CREATE TABLE employee
 (
-    id            NUMBER(6) PRIMARY KEY,
+    id            NUMBER(6),
     first_name    VARCHAR2(20) NOT NULL,
     last_name     VARCHAR2(25) NOT NULL,
-    department    NUMBER(4) REFERENCES department (id),
-    email         VARCHAR2(25) UNIQUE NOT NULL,
-    phone_number  VARCHAR2(20) UNIQUE NOT NULL,
-    salary        NUMBER(8, 2) CHECK (salary >= 1.0)
+    department    NUMBER(4),
+    email         VARCHAR2(25) NOT NULL,
+    phone_number  VARCHAR2(20) NOT NULL,
+    salary        NUMBER(8, 2),
+
+    CONSTRAINT employee_id_pk PRIMARY KEY (id),
+    CONSTRAINT fk_department FOREIGN KEY (department) REFERENCES department (id),
+    CONSTRAINT email_unique UNIQUE (email),
+    CONSTRAINT phone_number_unique UNIQUE (phone_number),
+    CONSTRAINT check_salary_greater_than_zero CHECK (salary >= 1.0)
 );
 
 CREATE SEQUENCE employee_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 99999 NOCYCLE;
 
-CREATE OR REPLACE TRIGGER employee_trigger
+CREATE OR REPLACE TRIGGER employee_before_insert
     BEFORE INSERT ON employee
     FOR EACH ROW
 

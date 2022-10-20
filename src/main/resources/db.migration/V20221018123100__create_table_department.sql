@@ -1,13 +1,15 @@
 CREATE TABLE department
 (
-    id       NUMBER(4) PRIMARY KEY,
+    id       NUMBER(4),
     name     VARCHAR2(30) NOT NULL,
-    location VARCHAR2(30) NOT NULL
+    location VARCHAR2(30) NOT NULL,
+
+    CONSTRAINT department_id_pk PRIMARY KEY (id)
 );
 
 CREATE SEQUENCE department_seq START WITH 1 INCREMENT BY 1 MINVALUE 1 MAXVALUE 99999 NOCYCLE;
 
-CREATE OR REPLACE TRIGGER dept_bir
+CREATE OR REPLACE TRIGGER dept_before_insert
     BEFORE INSERT ON department
     FOR EACH ROW
 

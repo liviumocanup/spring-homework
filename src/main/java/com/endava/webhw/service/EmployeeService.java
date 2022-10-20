@@ -1,5 +1,6 @@
 package com.endava.webhw.service;
 
+import com.endava.webhw.exception.EntityNotFoundException;
 import com.endava.webhw.model.Employee;
 import com.endava.webhw.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class EmployeeService {
 
     @Transactional(readOnly = true)
     public Employee findById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(() -> new NullPointerException("No employee with such id."));
+        return employeeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee with id: "+id+" not found."));
     }
 
     @Transactional
@@ -30,7 +31,7 @@ public class EmployeeService {
 
     @Transactional
     public Employee update(long id, Employee employee) {
-        Employee updatedEmployee = employeeRepository.findById(id).orElseThrow(() -> new NullPointerException("No employee with such id."));
+        Employee updatedEmployee = findById(id);
 
         //have to optimize
         updatedEmployee.setFirstName(employee.getFirstName());

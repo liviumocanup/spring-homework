@@ -1,5 +1,6 @@
 package com.endava.webhw.service;
 
+import com.endava.webhw.exception.EntityNotFoundException;
 import com.endava.webhw.model.Department;
 import com.endava.webhw.repository.DepartmentRepository;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ public class DepartmentService {
 
     @Transactional(readOnly = true)
     public Department findById(Long id) {
-        return departmentRepository.findById(id).orElseThrow(() -> new NullPointerException("No department with such id."));
+        return departmentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Department with id: "+id+" not found."));
     }
 
     @Transactional
@@ -30,7 +31,7 @@ public class DepartmentService {
 
     @Transactional
     public Department update(long id, Department department) {
-        Department updatedDepartment = departmentRepository.findById(id).orElseThrow(() -> new NullPointerException("No department with such id."));
+        Department updatedDepartment = findById(id);
 
         updatedDepartment.setName(department.getName());
         updatedDepartment.setLocation(department.getLocation());
