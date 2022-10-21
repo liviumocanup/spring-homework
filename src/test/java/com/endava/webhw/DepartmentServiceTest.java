@@ -1,0 +1,71 @@
+package com.endava.webhw;
+
+import com.endava.webhw.dto.DepartmentDto;
+import com.endava.webhw.exception.EntityNotFoundException;
+import com.endava.webhw.model.Department;
+import com.endava.webhw.repository.DepartmentRepository;
+import com.endava.webhw.service.DepartmentService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+public class DepartmentServiceTest {
+    private final DepartmentRepository departmentRepository = mock(DepartmentRepository.class);
+    private DepartmentService departmentService;
+
+    private Department expectedDepartment;
+
+    @BeforeEach
+    void setUp() {
+        departmentService = new DepartmentService(departmentRepository);
+        expectedDepartment = new DepartmentDto("IT", "Chisinau").toDepartment();
+    }
+
+    @Test
+    void testFindAllShouldReturnEmptyListWhenRepositoryEmpty() {
+        doReturn(new ArrayList<>()).when(departmentRepository).findAll();
+
+        assertTrue(departmentService.findAll().isEmpty());
+    }
+
+    @Test
+    void testFindByIdShouldThrowExceptionWhenThereIsNoSuchId() {
+        doReturn(Optional.empty()).when(departmentRepository).findById(1L);
+
+        assertThrows(EntityNotFoundException.class, () -> departmentService.findById(1L));
+    }
+
+    @Test
+    void testFindByIdObjectFieldsShouldMatchWhenIdFound() {
+        doReturn(Optional.of(expectedDepartment)).when(departmentRepository).findById(1L);
+
+        assertEquals(expectedDepartment, departmentService.findById(1L));
+    }
+
+    @Test
+    void testCreateObjectFieldsMatchIfTheProvidedBodyIsValid() {
+        doReturn(expectedDepartment).when(departmentRepository).save(expectedDepartment);
+
+        assertEquals(expectedDepartment, departmentService.create(expectedDepartment));
+    }
+
+    @Test
+    void testUpdateShouldThrowExceptionIfIdNotFound() {
+        doReturn(Optional.empty()).when(departmentRepository).findById(1L);
+
+        assertThrows(EntityNotFoundException.class, () -> departmentService.update(1L, expectedDepartment));
+    }
+
+    @Test
+    void testUpdateObjectFieldsMatchIfTheProvidedBodyIsValid() {
+        doReturn(Optional.of(expectedDepartment)).when(departmentRepository).findById(1L);
+        doReturn(expectedDepartment).when(departmentRepository).save(expectedDepartment);
+
+        assertEquals(expectedDepartment, departmentService.update(1L, expectedDepartment));
+    }
+}
