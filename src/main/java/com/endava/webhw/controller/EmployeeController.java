@@ -37,7 +37,7 @@ public class EmployeeController {
                 .build(createdEmployee.getId());
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .header("Location", uri.toString())
+                .location(uri)
                 .body(createdEmployee);
     }
 
@@ -50,7 +50,7 @@ public class EmployeeController {
                 .build(updatedEmployee.getId());
 
         return ResponseEntity.status(HttpStatus.OK)
-                .header("Location", uri.toString())
+                .location(uri)
                 .body(updatedEmployee);
     }
 }

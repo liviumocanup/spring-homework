@@ -20,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -51,12 +53,13 @@ public class EmployeeControllerTest {
 
     private Employee expectedEmployee;
     private String jsonEmployee;
-    private ResponseEntity<?> r;
+    private ResponseEntity<?> responseEntity;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws URISyntaxException {
         expectedEmployee = new EmployeeDto("John", "Doe", 1L, "jdoe@mail.com",
                 "+3738404404", 500.0).toEmployee();
+
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             jsonEmployee = objectMapper.writeValueAsString(new EmployeeDto("John", "Doe",
@@ -64,8 +67,12 @@ public class EmployeeControllerTest {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        r = ResponseEntity.status(HttpStatus.CREATED)
-                .header("Location /employees/1")
+
+        String myUrl = "http://localhost:8080/employees/1";
+        URI uri = new URI(myUrl);
+
+        responseEntity = ResponseEntity.status(HttpStatus.CREATED)
+                .location(uri)
                 .build();
     }
 
@@ -131,7 +138,7 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$.email").value(expectedEmployee.getEmail()))
                 .andExpect(jsonPath("$.phoneNumber").value(expectedEmployee.getPhoneNumber()))
                 .andExpect(jsonPath("$.salary").value(expectedEmployee.getSalary()))
-                .andReturn().getResponse().getHeaders(r.getHeaders().toString());
+                .andReturn().getResponse().getHeaders(responseEntity.getHeaders().toString());
     }
 
     @Test
@@ -169,6 +176,6 @@ public class EmployeeControllerTest {
                 .andExpect(jsonPath("$.email").value(expectedEmployee.getEmail()))
                 .andExpect(jsonPath("$.phoneNumber").value(expectedEmployee.getPhoneNumber()))
                 .andExpect(jsonPath("$.salary").value(expectedEmployee.getSalary()))
-                .andReturn().getResponse().getHeaders(r.getHeaders().toString());
+                .andReturn().getResponse().getHeaders(responseEntity.getHeaders().toString());
     }
 }

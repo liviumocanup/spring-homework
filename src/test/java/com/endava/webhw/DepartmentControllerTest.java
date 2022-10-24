@@ -20,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -49,19 +51,24 @@ public class DepartmentControllerTest {
 
     private Department expectedDepartment;
     private String jsonDepartment;
-    private ResponseEntity<?> r;
+    private ResponseEntity<?> responseEntity;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws URISyntaxException {
         expectedDepartment = new DepartmentDto("IT", "Chisinau").toDepartment();
+
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             jsonDepartment = objectMapper.writeValueAsString(new DepartmentDto("IT", "Chisinau"));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        r = ResponseEntity.status(HttpStatus.CREATED)
-                .header("Location /departments/1")
+
+        String myUrl = "http://localhost:8080/departments/1";
+        URI uri = new URI(myUrl);
+
+        responseEntity = ResponseEntity.status(HttpStatus.CREATED)
+                .location(uri)
                 .build();
     }
 
@@ -119,7 +126,7 @@ public class DepartmentControllerTest {
                 .andExpect(jsonPath("$.id").value(expectedDepartment.getId()))
                 .andExpect(jsonPath("$.name").value(expectedDepartment.getName()))
                 .andExpect(jsonPath("$.location").value(expectedDepartment.getLocation()))
-                .andReturn().getResponse().getHeaders(r.getHeaders().toString());
+                .andReturn().getResponse().getHeaders(responseEntity.getHeaders().toString());
     }
 
     @Test
@@ -153,6 +160,6 @@ public class DepartmentControllerTest {
                 .andExpect(jsonPath("$.id").value(expectedDepartment.getId()))
                 .andExpect(jsonPath("$.name").value(expectedDepartment.getName()))
                 .andExpect(jsonPath("$.location").value(expectedDepartment.getLocation()))
-                .andReturn().getResponse().getHeaders(r.getHeaders().toString());
+                .andReturn().getResponse().getHeaders(responseEntity.getHeaders().toString());
     }
 }

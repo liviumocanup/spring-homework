@@ -37,7 +37,7 @@ public class DepartmentController {
                 .build(createdDepartment.getId());
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .header("Location", uri.toString())
+                .location(uri)
                 .body(createdDepartment);
     }
 
@@ -50,7 +50,7 @@ public class DepartmentController {
                 .build(updatedDepartment.getId());
 
         return ResponseEntity.status(HttpStatus.OK)
-                .header("Location", uri.toString())
+                .location(uri)
                 .body(updatedDepartment);
     }
 }
