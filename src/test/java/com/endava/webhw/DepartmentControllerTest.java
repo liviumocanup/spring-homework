@@ -125,7 +125,6 @@ public class DepartmentControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(expectedDepartment.getId()))
                 .andExpect(jsonPath("$.name").value(expectedDepartment.getName()))
                 .andExpect(jsonPath("$.location").value(expectedDepartment.getLocation()))
                 .andReturn().getResponse().getHeaders(responseEntity.getHeaders().toString());
@@ -159,7 +158,6 @@ public class DepartmentControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(expectedDepartment.getId()))
                 .andExpect(jsonPath("$.name").value(expectedDepartment.getName()))
                 .andExpect(jsonPath("$.location").value(expectedDepartment.getLocation()))
                 .andReturn().getResponse().getHeaders(responseEntity.getHeaders().toString());

@@ -45,7 +45,7 @@ public class DepartmentController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .location(uri)
-                .body(createdDepartment);
+                .body(new DepartmentDto(createdDepartment));
     }
 
     @PutMapping("{id}")
@@ -58,6 +58,6 @@ public class DepartmentController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .location(uri)
-                .body(updatedDepartment);
+                .body(new DepartmentDto(updatedDepartment));
     }
 }

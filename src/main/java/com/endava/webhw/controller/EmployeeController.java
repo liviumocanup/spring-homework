@@ -45,7 +45,7 @@ public class EmployeeController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .location(uri)
-                .body(createdEmployee);
+                .body(new EmployeeDto(createdEmployee));
     }
 
     @PutMapping("{id}")
@@ -58,6 +58,6 @@ public class EmployeeController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .location(uri)
-                .body(updatedEmployee);
+                .body(new EmployeeDto(updatedEmployee));
     }
 }
