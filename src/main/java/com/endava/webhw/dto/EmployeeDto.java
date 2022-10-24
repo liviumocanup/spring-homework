@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -39,6 +40,7 @@ public class EmployeeDto {
     @JsonAlias("phone-number")
     private String phoneNumber;
 
+    @Min(value = 1, message = "Salary should be greater than zero")
     private Double salary;
 
     public Employee toEmployee() {

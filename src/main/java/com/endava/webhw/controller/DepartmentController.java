@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody DepartmentDto departmentDto) {
+    public ResponseEntity<?> create(@Valid @RequestBody DepartmentDto departmentDto) {
         Department createdDepartment = departmentService.create(departmentDto.toDepartment());
 
         URI uri = MvcUriComponentsBuilder.fromController(getClass())
@@ -48,7 +49,7 @@ public class DepartmentController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> update(@PathVariable long id, @RequestBody DepartmentDto departmentDto) {
+    public ResponseEntity<?> update(@PathVariable long id, @Valid @RequestBody DepartmentDto departmentDto) {
         Department updatedDepartment = departmentService.update(id, departmentDto.toDepartment());
 
         URI uri = MvcUriComponentsBuilder.fromController(getClass())

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<?> create(@Valid @RequestBody EmployeeDto employeeDto) {
         Employee createdEmployee = employeeService.create(employeeDto.toEmployee());
 
         URI uri = MvcUriComponentsBuilder.fromController(getClass())
@@ -48,7 +49,7 @@ public class EmployeeController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> update(@PathVariable long id, @RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<?> update(@PathVariable long id, @Valid @RequestBody EmployeeDto employeeDto) {
         Employee updatedEmployee = employeeService.update(id, employeeDto.toEmployee());
 
         URI uri = MvcUriComponentsBuilder.fromController(getClass())
