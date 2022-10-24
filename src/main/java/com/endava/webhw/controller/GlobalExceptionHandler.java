@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
     private static final String BAD_ENTITY = "Entity creation error";
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorResponse> onEntityNotFound(HttpServletRequest request, EntityNotFoundException e){
+    public ResponseEntity<ErrorResponse> onEntityNotFound(HttpServletRequest request, EntityNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(HttpStatus.NOT_FOUND.value(),
                         ENTITY_NOT_FOUND,
@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ErrorResponse> onMethodArgumentTypeMismatch(HttpServletRequest request, MethodArgumentTypeMismatchException e){
+    public ResponseEntity<ErrorResponse> onMethodArgumentTypeMismatch(HttpServletRequest request, MethodArgumentTypeMismatchException e) {
         String message = "Parameter: " + e.getName() + ", has invalid value: " + e.getValue();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(OracleDatabaseException.class)
-    public ResponseEntity<ErrorResponse> onOracleDatabaseException(HttpServletRequest request, OracleDatabaseException e){
+    public ResponseEntity<ErrorResponse> onOracleDatabaseException(HttpServletRequest request, OracleDatabaseException e) {
         //String message = "Parameter: " + e.getName() + ", has invalid value: " + e.getValue();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)

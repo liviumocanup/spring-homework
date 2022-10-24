@@ -11,7 +11,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -47,7 +48,7 @@ public class EmployeeServiceTest {
     void testFindByIdObjectFieldsShouldMatchWhenIdFound() {
         doReturn(Optional.of(expectedEmployee)).when(employeeRepository).findById(1L);
 
-        assertEquals(expectedEmployee, employeeService.findById(1L));
+        assertEquals(new EmployeeDto(expectedEmployee), employeeService.findById(1L));
     }
 
     @Test

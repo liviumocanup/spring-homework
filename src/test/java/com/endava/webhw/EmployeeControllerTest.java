@@ -28,7 +28,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -107,11 +108,10 @@ public class EmployeeControllerTest {
 
     @Test
     void testFindByIdObjectFieldsShouldMatchWhenIdFound() throws Exception {
-        doReturn(expectedEmployee).when(employeeService).findById(1L);
+        doReturn(new EmployeeDto(expectedEmployee)).when(employeeService).findById(1L);
 
         mockMvc.perform(get("/employees/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(expectedEmployee.getId()))
                 .andExpect(jsonPath("$.firstName").value(expectedEmployee.getFirstName()))
                 .andExpect(jsonPath("$.lastName").value(expectedEmployee.getLastName()))
                 .andExpect(jsonPath("$.department").value(expectedEmployee.getDepartment()))

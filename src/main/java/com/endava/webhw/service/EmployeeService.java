@@ -1,5 +1,6 @@
 package com.endava.webhw.service;
 
+import com.endava.webhw.dto.EmployeeDto;
 import com.endava.webhw.exception.EntityNotFoundException;
 import com.endava.webhw.model.Employee;
 import com.endava.webhw.repository.EmployeeRepository;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,13 +17,25 @@ public class EmployeeService {
     private final EmployeeRepository employeeRepository;
 
     @Transactional(readOnly = true)
-    public List<Employee> findAll() {
-        return employeeRepository.findAll();
+    public List<EmployeeDto> findAll() {
+        List<EmployeeDto> employeeDtos = new ArrayList<>();
+        List<Employee> allEmployeesList = employeeRepository.findAll();
+
+        for (Employee e : allEmployeesList) {
+            employeeDtos.add(new EmployeeDto(e));
+        }
+
+        return employeeDtos;
     }
 
     @Transactional(readOnly = true)
-    public Employee findById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee with id: "+id+" not found."));
+    public EmployeeDto findById(Long id) {
+        Employee foundEmployee = findByIdForEmployee(id);
+        return new EmployeeDto(foundEmployee);
+    }
+
+    private Employee findByIdForEmployee(Long id) {
+        return employeeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee with id: " + id + " not found."));
     }
 
     @Transactional
@@ -31,9 +45,8 @@ public class EmployeeService {
 
     @Transactional
     public Employee update(long id, Employee employee) {
-        Employee updatedEmployee = findById(id);
+        Employee updatedEmployee = findByIdForEmployee(id);
 
-        //have to optimize
         updatedEmployee.setFirstName(employee.getFirstName());
         updatedEmployee.setLastName(employee.getLastName());
         updatedEmployee.setDepartment(employee.getDepartment());

@@ -28,8 +28,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @WebMvcTest
 public class DepartmentControllerTest {
@@ -103,11 +106,10 @@ public class DepartmentControllerTest {
 
     @Test
     void testFindByIdObjectFieldsShouldMatchWhenIdFound() throws Exception {
-        doReturn(expectedDepartment).when(departmentService).findById(1L);
+        doReturn(new DepartmentDto(expectedDepartment)).when(departmentService).findById(1L);
 
         mockMvc.perform(get("/departments/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(expectedDepartment.getId()))
                 .andExpect(jsonPath("$.name").value(expectedDepartment.getName()))
                 .andExpect(jsonPath("$.location").value(expectedDepartment.getLocation()));
     }
